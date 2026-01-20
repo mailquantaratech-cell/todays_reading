@@ -57,6 +57,28 @@
       letter-spacing: 0.3px;
     }
 
+    #brand {
+      font-size: 14px;
+      letter-spacing: 0.6px;
+      opacity: 0.6;
+      margin-bottom: 6px;
+      }
+
+#subtext {
+  font-size: 13px;
+  opacity: 0.4;
+  margin-bottom: 26px;
+}
+
+.loading #sentence {
+  display: none;
+}
+
+    .reading #brand,
+    .reading #subtext {
+    display: none;
+    }
+
     .speedBtn.active {
       background: #b11226;
       color: #fff;
@@ -68,6 +90,8 @@
 <body>
 
 <div id="app">
+  <div id="brand">Today’s Reading</div>
+  <div id="subtext">Preparing today’s briefing…</div>
   <div id="sentence"></div>
 
   <div id="controls">
@@ -81,7 +105,7 @@
 /* =========================
    CONFIG
 ========================= */
-
+document.body.classList.add("loading");
 const BASE_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTW5lNRGcxIOyAqp-phNcxFHnhbiG6p8TRTbzRZLlGClICQ_BJ0QH939XN8bTMc8lDnnhpFzLORikxL/pub?output=csv";
 
@@ -255,15 +279,16 @@ function showSentence() {
 
 async function startReading() {
   await loadAllTabs();
-
+  document.body.classList.remove("loading");
   if (!allSentences.length) {
     sentenceEl.innerHTML = "Today’s briefing will be available soon.";
     sentenceEl.style.opacity = 1;
     return;
   }
 
-  index = 0;
-  showSentence();
+    index = 0;
+    document.body.classList.add("reading");
+    setTimeout(showSentence, 900);
 }
 
 /* =========================
@@ -275,4 +300,5 @@ window.onload = startReading;
 
 </body>
 </html>
+
 
