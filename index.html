@@ -35,10 +35,11 @@
       transition: opacity 0.4s ease;
     }
 
-    .fact {
-      color: #b11226;
-      font-weight: 600;
-    }
+   .fact {
+  color: #b11226 !important;
+  font-weight: 600;
+  -webkit-text-fill-color: #b11226;
+}
 
     #controls {
       margin-top: 36px;
@@ -158,6 +159,21 @@ function getDisplayTime(sentence) {
   return base * speedMultiplier;
 }
 
+  function highlightFacts(text) {
+  // Highlight numbers
+  text = text.replace(/\b\d+(\.\d+)?%?\b/g, match =>
+    `<span class="fact">${match}</span>`
+  );
+
+  // Highlight capitalized proper nouns (simple heuristic)
+  text = text.replace(
+    /\b([A-Z][a-z]+(?:\s[A-Z][a-z]+)*)\b/g,
+    match => `<span class="fact">${match}</span>`
+  );
+
+  return text;
+}
+
 /* =========================
    SPEED CONTROLS
 ========================= */
@@ -230,7 +246,7 @@ function showSentence() {
 
   sentenceEl.style.opacity = 0;
   setTimeout(() => {
-    sentenceEl.innerHTML = current;
+    sentenceEl.innerHTML = highlightFacts(current);
     sentenceEl.style.opacity = 1;
     index++;
     timer = setTimeout(showSentence, getDisplayTime(current));
@@ -259,3 +275,4 @@ window.onload = startReading;
 
 </body>
 </html>
+
