@@ -279,16 +279,21 @@ function showSentence() {
 
 async function startReading() {
   await loadAllTabs();
-  document.body.classList.remove("loading");
-  if (!allSentences.length) {
-    sentenceEl.innerHTML = "Today’s briefing will be available soon.";
-    sentenceEl.style.opacity = 1;
-    return;
-  }
+document.body.classList.remove("loading");
 
-    index = 0;
-    document.body.classList.add("reading");
-    setTimeout(showSentence, 900);
+if (!allSentences.length) {
+  sentenceEl.innerHTML = "Today’s briefing will be available soon.";
+  sentenceEl.style.opacity = 1;
+  return;
+}
+
+index = 0;
+
+// Let branding breathe before reading starts
+setTimeout(() => {
+  document.body.classList.add("reading");
+  showSentence();
+}, 900);
 }
 
 /* =========================
@@ -300,5 +305,6 @@ window.onload = startReading;
 
 </body>
 </html>
+
 
 
